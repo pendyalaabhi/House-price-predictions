@@ -1,159 +1,1284 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Home :: IOWA House Sales</title>
+    <link rel="icon" type="image/ico" href="{{ url_for('static', filename='images/roomhiveicon.png') }}" />
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/animate.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-
-    <div style="color:blue">
-        <form action="{{ url_for('predict')}}" method="post">
-            <h2>Predictive analysis</h2>
-            <h3>Year</h3>
-            <input id="first" name="Year" type="number ">
-            <h3>What is the Showroom Price?(In lakhs)</h3><br><input id="second" name="Present_Price" required="required">
-            <h3>How Many Kilometers Drived?</h3><input id="third" name="Kms_Driven" required="required">
-            <h3>How much owners previously had the car(0 or 1 or 3) ?</h3><br><input id="fourth" name="Owner" required="required">
-            <h3>What Is the Fuel type?</h3><br><select name="Fuel_Type_Petrol" id="fuel" required="required">
-                <option value="Petrol">Petrol</option>
-                <option value="Diesel">Diesel</option>
-                <option value="Diesel">CNG</option>
-            </select>
-            <h3>Are you A Dealer or Individual</h3><br><select name="Seller_Type_Individual" id="resea" required="required">
-                <option value="Dealer">Dealer</option>
-                <option value="Individual">Individual</option>
-            </select>
-            <h3>Transmission type</h3><br><select name="Transmission_Mannual" id="research" required="required">
-                <option value="Mannual">Manual Car</option>
-                <option value="Automatic">Automatic Car</option>
-            </select>
-            <br><br><button id="sub" type="submit ">Calculate the Selling Price</button>
-            <br>
-
-
-
-
-        </form>
-
-
-
-        <br><br><h3>{{ prediction_text }}<h3>
+    <div class="background" id="background">
+        <div class="container">
+            <div class="center">
+                <img class="prelogo" src="{{ url_for('static', filename='images/roomhive3.png') }}">
+            </div>
+            <br><br>
+            <div class="center row">
+                <h4>
+                    <span data-text="L">L</span>
+                    <span data-text="O">O</span>
+                    <span data-text="A">A</span>
+                    <span data-text="D">D</span>
+                    <span data-text="I">I</span>
+                    <span data-text="N">N</span>
+                    <span data-text="G">G</span>
+                </h4>
+            </div>
+        </div>
     </div>
+    <div class="main-div" id="main-div">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-transparent fixed-top">
+            <div class="container">
+                <a class="navbar-brand d-lg-none" href="#"><img
+                        src="{{ url_for('static', filename='images/roomhive3.png') }}" class="logo"></a>
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle"
+                    aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse justify-content-between" id="navbarToggle">
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Home</a>
+                        </li>
+                    </ul>
+
+                    <a class="navbar-brand d-none d-lg-block" href="#"><img
+                            src="{{ url_for('static', filename='images/roomhive3.png') }}"></a>
+
+                    <ul class="navbar-nav">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">Contact Us</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <header>
+            <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                <ol class="carousel-indicators">
+                    <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+                </ol>
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active"
+                        style="background-image: url('http://s1.picswalls.com/wallpapers/2014/08/08/house-high-quality-wallpaper_015636679_148.jpg')">
+                        <div class="carousel-caption">
+                            <h2 class="animated bounceInLeft sliding-text" style="animation-delay: 1s;">First Slide</h2>
+                            <p class="animated bounceInRight sliding-text-small" style="animation-delay: 2s;">This is a
+                                description
+                                for
+                                the first slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url('https://wallpapercave.com/wp/wp2449408.jpg')">
+                        <div class="carousel-caption">
+                            <h2 class="animated fadeInLeft sliding-text" style="animation-delay: 1s;">Second
+                                Slide</h2>
+                            <p class="animated fadeInRight sliding-text-small" style="animation-delay: 2s;">This is a
+                                description for
+                                the
+                                second slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item"
+                        style="background-image: url('https://wallpapercave.com/wp/wp2464257.jpg')">
+                        <div class="carousel-caption">
+                            <h2 class="animated flipInX sliding-text" style="animation-delay: 1s;">Third Slide
+                            </h2>
+                            <p class="animated flipInY sliding-text-small" style="animation-delay: 2s;">This is a
+                                description for the
+                                third slide.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a id="scroll" class="ca3-scroll-down-link ca3-scroll-down-arrow" data-ca3_iconfont="ETmodules"
+                data-ca3_icon=""></a>
+        </header>
+        <section class="py-5">
+            <div id="main" class="container">
+                <form class="well form-horizontal" action="{{ url_for('predict')}}" method="post" id="prediction_form">
+                    <fieldset>
+                        <legend>
+                            <center>
+                                <h2><b>Ideal Home Search</b></h2>
+                            </center>
+                        </legend><br>
+
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">MSSubClass<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="MSSubClass" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select MSSubClass</option>
+                                        <option data-tokens="1-STORY 1946 & NEWER ALL STYLES" class="content" value="0">
+                                            1-STORY 1946 & NEWER ALL STYLES</option>
+                                        <option data-tokens="1-STORY 1945 & OLDER" class="content" value="1">
+                                            1-STORY 1945 & OLDER</option>
+                                        <option data-tokens="1-STORY W/FINISHED ATTIC ALL AGES" class="content" value="2">
+                                            1-STORY W/FINISHED ATTIC ALL AGES</option>
+                                        <option data-tokens="1-1/2 STORY - UNFINISHED ALL AGES" class="content" value="3">
+                                            1-1/2 STORY - UNFINISHED ALL AGES</option>
+                                        <option data-tokens="1-1/2 STORY FINISHED ALL AGES" class="content" value="4">
+                                            1-1/2 STORY FINISHED ALL AGES</option>
+                                        <option data-tokens="2-STORY 1946 & NEWER" class="content" value="5">
+                                            2-STORY 1946 & NEWER</option>
+                                        <option data-tokens="2-STORY 1945 & NEWER" class="content" value="6">
+                                            2-STORY 1945 & OLDER</option>
+                                        <option data-tokens="2-1/2 STORY ALL AGES" class="content" value="7">
+                                            2-1/2 STORY ALL AGES</option>
+                                        <option data-tokens="SPLIT OR MULTI-LEVEL" class="content" value="8">
+                                            SPLIT OR MULTI-LEVEL</option>
+                                        <option data-tokens="SPLIT FOYER" class="content" value="9">
+                                            SPLIT FOYER</option>
+                                        <option data-tokens="DUPLEX - ALL STYLES AND AGES" class="content" value="10">
+                                            DUPLEX - ALL STYLES AND AGES</option>
+                                        <option data-tokens="1-STORY PUD (Planned Unit Development) - 1946 & NEWER" class="content" value="11">
+                                            1-STORY PUD (Planned Unit Development) - 1946 & NEWER</option>
+                                        <option data-tokens="1-1/2 STORY PUD - ALL AGES" class="content" value="12">
+                                            1-1/2 STORY PUD - ALL AGES</option>
+                                        <option data-tokens="2-STORY PUD - 1946 & NEWER" class="content" value="13">
+                                            2-STORY PUD - 1946 & NEWER</option>
+                                        <option data-tokens="PUD - MULTILEVEL - INCL SPLIT LEV/FOYER" class="content" value="14">
+                                            PUD - MULTILEVEL - INCL SPLIT LEV/FOYER</option>
+                                        <option data-tokens="2 FAMILY CONVERSION - ALL STYLES AND AGES" class="content" value="15">
+                                            2 FAMILY CONVERSION - ALL STYLES AND AGES</option>
+                                  </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">MSZoning<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="MSZoning" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Zone</option>
+                                        <option data-tokens="Agriculture" class="content" value="0">Agriculture</option>
+                                        <option data-tokens="Commercial" class="content" value="1">
+                                            Commercial</option>
+                                        <option data-tokens="Floating Village Residential" class="content" value="2">
+                                            Floating Village Residential</option>
+                                        <option data-tokens="Industrial" class="content" value="3">
+                                            Industrial</option>
+                                        <option data-tokens="Residential High Density" class="content" value="4">Residential High Density
+                                        </option>
+                                        <option data-tokens="Residential Low Density" class="content" value="5">ChhaniResidential Low Density</option>
+                                        <option data-tokens="Residential Low Density Park " class="content" value="6">Residential Low Density Park 
+                                        </option>
+                                        <option data-tokens="Residential Medium Density" class="content" value="7">Residential Medium Density</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">LotFrontage<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="LotFrontage" placeholder="LotFrontage" class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">LotArea<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="LotArea" placeholder="LotArea" class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Street<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Street" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Street</option>
+                                        <option data-tokens="Gravel" class="content" value="0">Gravel</option>
+                                        <option data-tokens="Paved" class="content" value="1">Paved</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Alley<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Alley" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Alley</option>
+                                        <option data-tokens="Gravel" class="content" value="0">Gravel</option>
+                                        <option data-tokens="Paved" class="content" value="1">Paved</option>
+                                        <option data-tokens="No alley access" class="content" value="2">No alley access</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">LotShape<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="LotShape" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select LotShape</option>
+                                        <option data-tokens="Regular" class="content" value="0">Regular</option>
+                                        <option data-tokens="Slightly irregular" class="content" value="1">Slightly irregular</option>
+                                        <option data-tokens="Moderately Irregular" class="content" value="2">Moderately Irregular</option>
+                                        <option data-tokens="Irregular" class="content" value="3">Irregular</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">LandContour<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="LandContour" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select LandContour</option>
+                                        <option data-tokens="Lvl" class="content" value="0">Lvl</option>
+                                        <option data-tokens="Bnk" class="content" value="1">Bnk</option>
+                                        <option data-tokens="HLS" class="content" value="2">HLS</option>
+                                        <option data-tokens="Low" class="content" value="3">Low</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Utilities<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Utilities" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Utilities</option>
+                                        <option data-tokens="AllPub" class="content" value="0">AllPub</option>
+                                        <option data-tokens="NoSewr" class="content" value="1">NoSewr</option>
+                                        <option data-tokens="NoSeWa" class="content" value="2">NoSeWa</option>
+                                        <option data-tokens="ELO" class="content" value="3">ELO</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">LotConfig<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="LotConfig" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select LotConfig</option>
+                                        <option data-tokens="Inside" class="content" value="0">Inside</option>
+                                        <option data-tokens="Corner" class="content" value="1">Corner</option>
+                                        <option data-tokens="CulDSac" class="content" value="2">CulDSac</option>
+                                        <option data-tokens="FR2" class="content" value="3">FR2</option>
+                                        <option data-tokens="FR3" class="content" value="4">FR3</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Neighborhood<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Neighborhood" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Neighborhood</option>
+                                        <option data-tokens="Bloomington Heights" class="content" value="0">Bloomington Heights</option>
+                                        <option data-tokens="Bluestem" class="content" value="1">Bluestem</option>
+                                        <option data-tokens="Briardale" class="content" value="2">Briardale</option>
+                                        <option data-tokens="Brookside" class="content" value="3">Brookside</option>
+                                        <option data-tokens="Clear Creek" class="content" value="4">Clear Creek</option>
+                                        <option data-tokens="College Creek" class="content" value="5">College Creek</option>
+                                        <option data-tokens="Crawford" class="content" value="6">Crawford</option>
+                                        <option data-tokens="Edwards" class="content" value="7">Edwards</option>
+                                        <option data-tokens="Gilbert" class="content" value="8">Gilbert</option>
+                                        <option data-tokens="Iowa DOT and Rail Road" class="content" value="9">Iowa DOT and Rail Road</option>
+                                        <option data-tokens="Meadow Village" class="content" value="10">Meadow Village</option>
+                                        <option data-tokens="Mitchell" class="content" value="11">Mitchell</option>
+                                        <option data-tokens="North Ames" class="content" value="12">North Ames</option>
+                                        <option data-tokens="Northridge" class="content" value="13">Northridge</option>
+                                        <option data-tokens="Northpark Villa" class="content" value="14">Northpark Villa</option>
+                                        <option data-tokens="Northridge Heights" class="content" value="15">Northridge Heights</option>
+                                        <option data-tokens="Northwest Ames" class="content" value="16">Northwest Ames</option>
+                                        <option data-tokens="Old Town" class="content" value="17">Old Town</option>
+                                        <option data-tokens="South & West of Iowa State University" class="content" value="18">South & West of Iowa State University</option>
+                                        <option data-tokens="Sawyer" class="content" value="19">Sawyer</option>
+                                        <option data-tokens="Sawyer West" class="content" value="20">Sawyer West</option>
+                                        <option data-tokens="Somerset" class="content" value="21">Somerset</option>
+                                        <option data-tokens="Stone Brook" class="content" value="22">Stone Brook</option>
+                                        <option data-tokens="Timberland" class="content" value="23">Timberland</option>
+                                        <option data-tokens="Veenker" class="content" value="24">Veenker</option>
+                                      
+                                    </select>
+                                </div>
+                            </div>
+                       </div>                        
 
 
 
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Condition1<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Condition1" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Condition1</option>
+                                        <option data-tokens="Adjacent to arterial street" class="content" value="0">Adjacent to arterial street</option>
+                                        <option data-tokens="Adjacent to feeder street" class="content" value="1">Adjacent to feeder street</option>
+                                        <option data-tokens="Normal" class="content" value="2">Normal</option>
+                                        <option data-tokens="Within 200' of North-South Railroad" class="content" value="3">Within 200' of North-South Railroad</option>
+                                        <option data-tokens="Adjacent to North-South Railroad" class="content" value="4">Adjacent to North-South Railroad</option>
+                                        <option data-tokens="Near positive off-site feature--park, greenbelt, etc." class="content" value="5">Near positive off-site feature--park, greenbelt, etc.</option>
+                                        <option data-tokens="Adjacent to postive off-site feature" class="content" value="6">Adjacent to postive off-site feature</option>
+                                        <option data-tokens="Within 200' of East-West Railroad" class="content" value="7">Within 200' of East-West Railroad</option>
+                                        <option data-tokens="Adjacent to East-West Railroad" class="content" value="8">Adjacent to East-West Railroad</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Condition2<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Condition2" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Condition2</option>
+                                        <option data-tokens="Artery" class="content" value="0">Artery</option>
+                                        <option data-tokens="Feedr" class="content" value="1">Feedr street</option>
+                                        <option data-tokens="Norm" class="content" value="2">Norm</option>
+                                        <option data-tokens="RRNn" class="content" value="3">RRNn</option>
+                                        <option data-tokens="RRAn" class="content" value="4">RRAn</option>
+                                        <option data-tokens="PosN" class="content" value="5">PosN</option>
+                                        <option data-tokens="PosA" class="content" value="6">PosA</option>
+                                        <option data-tokens="RRNe" class="content" value="7">RRNe</option>
+                                        <option data-tokens="RRAe" class="content" value="8">RRAe</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">BldgType<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="BldgType" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select BldgType</option>
+                                        <option data-tokens="1Fam" class="content" value="0">1Fam</option>
+                                        <option data-tokens="2FmCon" class="content" value="1">2FmCon</option>
+                                        <option data-tokens="Duplx" class="content" value="2">Duplx</option>
+                                        <option data-tokens="TwnhsE" class="content" value="3">TwnhsE</option>
+                                        <option data-tokens="TwnhsI" class="content" value="4">TwnhsI</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">HouseStyle<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="HouseStyle" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select HouseStyle</option>
+                                        <option data-tokens="1Story" class="content" value="0">1Story</option>
+                                        <option data-tokens="1.5Fin" class="content" value="1">1.5Fin</option>
+                                        <option data-tokens="1.5Unf" class="content" value="2">1.5Unf</option>
+                                        <option data-tokens="2Story" class="content" value="3">2Story</option>
+                                        <option data-tokens="2.5Fin" class="content" value="4">2.5Fin</option>
+                                        <option data-tokens="2.5Unf" class="content" value="5">2.5Unf</option>
+                                        <option data-tokens="SFoyer" class="content" value="6">SFoyer</option>
+                                        <option data-tokens="SLvl" class="content" value="7">SLvl</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">OverallQual<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="OverallQual" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select OverallQual</option>
+                                        <option data-tokens="10" class="content" value="0">10</option>
+                                        <option data-tokens="9" class="content" value="1">9</option>
+                                        <option data-tokens="8" class="content" value="2">8</option>
+                                        <option data-tokens="7" class="content" value="3">7</option>
+                                        <option data-tokens="6" class="content" value="4">6</option>
+                                        <option data-tokens="5" class="content" value="5">5</option>
+                                        <option data-tokens="4" class="content" value="6">4</option>
+                                        <option data-tokens="3" class="content" value="7">3</option>
+                                        <option data-tokens="2" class="content" value="8">2</option>
+                                        <option data-tokens="1" class="content" value="9">1</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">OverallCond<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="OverallCond" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select OverallCond</option>
+                                        <option data-tokens="10" class="content" value="0">10</option>
+                                        <option data-tokens="9" class="content" value="1">9</option>
+                                        <option data-tokens="8" class="content" value="2">8</option>
+                                        <option data-tokens="7" class="content" value="3">7</option>
+                                        <option data-tokens="6" class="content" value="4">6</option>
+                                        <option data-tokens="5" class="content" value="5">5</option>
+                                        <option data-tokens="4" class="content" value="6">4</option>
+                                        <option data-tokens="3" class="content" value="7">3</option>
+                                        <option data-tokens="2" class="content" value="8">2</option>
+                                        <option data-tokens="1" class="content" value="9">1</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">RoofStyle<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="RoofStyle" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select RoofStyle</option>
+                                        <option data-tokens="Flat" class="content" value="0">Flat</option>
+                                        <option data-tokens="Gable" class="content" value="1">Gable</option>
+                                        <option data-tokens="Gabrel" class="content" value="2">Gabrel</option>
+                                        <option data-tokens="Hip" class="content" value="3">Hip</option>
+                                        <option data-tokens="Mansard" class="content" value="4">Mansard</option>
+                                        <option data-tokens="Shed" class="content" value="5">Shed</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">RoofMatl<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="RoofMatl" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select RoofMatl</option>
+                                        <option data-tokens="ClyTile" class="content" value="0">ClyTile</option>
+                                        <option data-tokens="CompShg" class="content" value="1">CompShg</option>
+                                        <option data-tokens="Membran" class="content" value="2">Membran</option>
+                                        <option data-tokens="Metal" class="content" value="3">Metal</option>
+                                        <option data-tokens="Roll" class="content" value="4">Roll</option>
+                                        <option data-tokens="Tar&Grv" class="content" value="5">Tar&Grv</option>
+                                        <option data-tokens="WdShake" class="content" value="6">WdShake</option> 
+                                        <option data-tokens="WdShngl" class="content" value="7">WdShngl</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
 
-    <style>
-        body {
-            background-color: lightslategray;
-            text-align: center;
-            padding: 0px;
-        }
-        
-        #research {
-            font-size: 18px;
-            width: 100px;
-            height: 23px;
-            top: 23px;
-        }
-        
-        #box {
-            border-radius: 60px;
-            border-color: 45px;
-            border-style: solid;
-            font-family: cursive;
-            text-align: center;
-            background-color: rgb(168, 131, 61);
-            font-size: medium;
-            position: absolute;
-            width: 700px;
-            bottom: 9%;
-            height: 850px;
-            right: 30%;
-            padding: 0px;
-            margin: 0px;
-            font-size: 14px;
-        }
-        
-        #fuel {
-            width: 83px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 20px;
-        }
-        
-        #fuel:hover {
-            background-color: coral;
-        }
-        
-        #research {
-            width: 99px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-        }
-        
-        #research:hover {
-            background-color: coral;
-        }
-        
-        #resea {
-            width: 99px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-        }
-        
-        #resea:hover {
-            background-color: coral;
-        }
-        
-        #sub {
-            width: 120px;
-            height: 43px;
-            text-align: center;
-            border-radius: 14px;
-            font-size: 18px;
-        }
-        
-        #sub:hover {
-            background-color: darkcyan;
-        }
-        
-        #first {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        #second {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        #third {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-        
-        #fourth {
-            border-radius: 14px;
-            height: 25px;
-            font-size: 20px;
-            text-align: center;
-        }
-    </style>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Exterior1st<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Exterior1st" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Exterior1st</option>
+                                        <option data-tokens="AsbShng" class="content" value="0">AsbShng</option>
+                                        <option data-tokens="AsphShn" class="content" value="1">AsphShn</option>
+                                        <option data-tokens="BrkComm" class="content" value="2">BrkComm</option>
+                                        <option data-tokens="BrkFace" class="content" value="3">BrkFace</option>
+                                        <option data-tokens="CBlock" class="content" value="4">CBlock</option>
+                                        <option data-tokens="CemntBd" class="content" value="5">CemntBd</option>
+                                        <option data-tokens="HdBoard" class="content" value="6">HdBoard</option>
+                                        <option data-tokens="ImStucc" class="content" value="7">ImStucc</option>
+                                        <option data-tokens="MetalSd" class="content" value="8">MetalSd</option>
+                                        <option data-tokens="Other" class="content" value="9">Other</option>
+                                        <option data-tokens="Plywood" class="content" value="10">Plywood</option>
+                                        <option data-tokens="PreCast" class="content" value="11">PreCast</option>
+                                        <option data-tokens="Stone" class="content" value="12">Stone</option>
+                                        <option data-tokens="Stucco" class="content" value="13">Stucco</option>
+                                        <option data-tokens="VinylSd" class="content" value="14">VinylSd</option>
+                                        <option data-tokens="Wd Sdng" class="content" value="15">Wd Sdng</option>
+                                        <option data-tokens="WdShing" class="content" value="16">WdShing</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Exterior2nd<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Exterior2nd" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Exterior2nd</option>
+                                        <option data-tokens="AsbShng" class="content" value="0">AsbShng</option>
+                                        <option data-tokens="AsphShn" class="content" value="1">AsphShn</option>
+                                        <option data-tokens="BrkComm" class="content" value="2">BrkComm</option>
+                                        <option data-tokens="BrkFace" class="content" value="3">BrkFace</option>
+                                        <option data-tokens="CBlock" class="content" value="4">CBlock</option>
+                                        <option data-tokens="CemntBd" class="content" value="5">CemntBd</option>
+                                        <option data-tokens="HdBoard" class="content" value="6">HdBoard</option>
+                                        <option data-tokens="ImStucc" class="content" value="7">ImStucc</option>
+                                        <option data-tokens="MetalSd" class="content" value="8">MetalSd</option>
+                                        <option data-tokens="Other" class="content" value="9">Other</option>
+                                        <option data-tokens="Plywood" class="content" value="10">Plywood</option>
+                                        <option data-tokens="PreCast" class="content" value="11">PreCast</option>
+                                        <option data-tokens="Stone" class="content" value="12">Stone</option>
+                                        <option data-tokens="Stucco" class="content" value="13">Stucco</option>
+                                        <option data-tokens="VinylSd" class="content" value="14">VinylSd</option>
+                                        <option data-tokens="Wd Sdng" class="content" value="15">Wd Sdng</option>
+                                        <option data-tokens="WdShing" class="content" value="16">WdShing</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">MasVnrType<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="MasVnrType" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select MasVnrType</option>
+                                        <option data-tokens="BrkCmn" class="content" value="0">BrkCmn</option>
+                                        <option data-tokens="BrkFace" class="content" value="1">BrkFace</option>
+                                        <option data-tokens="CBlock" class="content" value="2">CBlock</option>
+                                        <option data-tokens="None" class="content" value="3">None</option>
+                                        <option data-tokens="Stone" class="content" value="4">Stone</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">MasVnrArea<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="MasVnrArea" placeholder="MasVnrArea in sft" class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">ExterQual<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="ExterQual" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select ExterQual</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">ExterCond<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="ExterCond" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select ExterCond</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Foundation<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Foundation" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Foundation</option>
+                                        <option data-tokens="BrkTil" class="content" value="0">BrkTil</option>
+                                        <option data-tokens="CBlock" class="content" value="1">CBlock</option>
+                                        <option data-tokens="PConc" class="content" value="2">PConc</option>
+                                        <option data-tokens="Slab" class="content" value="3">Slab</option>
+                                        <option data-tokens="Stone" class="content" value="4">Stone</option>
+                                        <option data-tokens="Wood" class="content" value="5">Wood</option>   
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtQual<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="BsmtQual" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select BsmtQual</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option>
+                                        <option data-tokens="NA" class="content" value="5">NA</option>   
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtCond<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="BsmtCond" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select BsmtCond</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option>
+                                        <option data-tokens="NA" class="content" value="5">NA</option>   
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtExposure<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="BsmtExposure" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select BsmtExposure</option>
+                                        <option data-tokens="Gd" class="content" value="0">Gd</option>
+                                        <option data-tokens="Av" class="content" value="1">Av</option>
+                                        <option data-tokens="Mn" class="content" value="2">Mn</option>
+                                        <option data-tokens="No" class="content" value="3">No</option>
+                                        <option data-tokens="NA" class="content" value="4">NA</option>   
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtFinType1<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="BsmtFinType1" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select BsmtFinType1</option>
+                                        <option data-tokens="GLQ" class="content" value="0">GLQ</option>
+                                        <option data-tokens="ALQ" class="content" value="1">ALQ</option>
+                                        <option data-tokens="BLQ" class="content" value="2">BLQ</option>
+                                        <option data-tokens="Rec" class="content" value="3">Rec</option>
+                                        <option data-tokens="LwQ" class="content" value="4">LwQ</option>
+                                        <option data-tokens="Unf" class="content" value="5">Unf</option> 
+                                        <option data-tokens="NA" class="content" value="6">NA</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtFinSF1<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="BsmtFinSF1" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtFinType2<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="BsmtFinType2" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select BsmtFinType2</option>
+                                        <option data-tokens="GLQ" class="content" value="0">GLQ</option>
+                                        <option data-tokens="ALQ" class="content" value="1">ALQ</option>
+                                        <option data-tokens="BLQ" class="content" value="2">BLQ</option>
+                                        <option data-tokens="Rec" class="content" value="3">Rec</option>
+                                        <option data-tokens="LwQ" class="content" value="4">LwQ</option>
+                                        <option data-tokens="Unf" class="content" value="5">Unf</option> 
+                                        <option data-tokens="NA" class="content" value="6">NA</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtFinSF2<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="BsmtFinSF2" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtUnfSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="BsmtUnfSF" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">TotalBsmtSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="TotalBsmtSF" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Heating<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Heating" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Heating</option>
+                                        <option data-tokens="Floor" class="content" value="0">Floor</option>
+                                        <option data-tokens="GasA" class="content" value="1">GasA</option>
+                                        <option data-tokens="GasW" class="content" value="2">GasW</option>
+                                        <option data-tokens="Grav" class="content" value="3">Grav</option>
+                                        <option data-tokens="OthW" class="content" value="4">OthW</option>
+                                        <option data-tokens="Wall" class="content" value="5">Wall</option> 
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">HeatingQC<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="HeatingQC" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select HeatingQC</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option> 
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">CentralAir<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="CentralAir" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select CentralAir</option>
+                                        <option data-tokens="N" class="content" value="0">N</option>
+                                        <option data-tokens="Y" class="content" value="1">Y</option>
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">Electrical<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Electrical" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Electrical</option>
+                                        <option data-tokens="SBrkr" class="content" value="0">SBrkr</option>
+                                        <option data-tokens="FuseA" class="content" value="1">FuseA</option>
+                                        <option data-tokens="FuseF" class="content" value="2">FuseF</option>
+                                        <option data-tokens="FuseP" class="content" value="3">FuseP</option>
+                                        <option data-tokens="Mix" class="content" value="4">Mix</option> 
+                                    </select>
+                                </div>
+                            </div>
+                       </div>
+                       <div class="content center form-group">
+                            <label class="col-md-2 control-label">1stFlrSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="1stFlrSF" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">2ndFlrSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="2ndFlrSF" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">LowQualFinSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="LowQualFinSF" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GrLivArea<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="GrLivArea" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtFullBath<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="BsmtFullBath" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">BsmtHalfBath<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="BsmtHalfBath" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>    
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">FullBath<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="FullBath" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">HalfBath<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="HalfBath" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Bedroom<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="Bedroom" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Kitchen<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="Kitchen" placeholder="Total sqft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">KitchenQual<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="KitchenQual" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select KitchenQual</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option> 
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">TotRmsAbvGrd<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="TotRmsAbvGrd" placeholder="Total rooms." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Functional<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Functional" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Functional</option>
+                                        <option data-tokens="Typ" class="content" value="0">Typ</option>
+                                        <option data-tokens="Min1" class="content" value="1">Min1</option>
+                                        <option data-tokens="Min2" class="content" value="2">Min2</option>
+                                        <option data-tokens="Mod" class="content" value="3">Mod</option>
+                                        <option data-tokens="Maj1" class="content" value="4">Maj1</option> 
+                                        <option data-tokens="Maj2" class="content" value="5">Maj2</option>
+                                        <option data-tokens="Sev" class="content" value="6">Sev</option>
+                                        <option data-tokens="Sal" class="content" value="7">Sal</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Fireplaces<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="Fireplaces" placeholder="No of Fireplaces." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">FireplaceQu<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="FireplaceQu" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select FireplaceQu</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option> 
+                                        <option data-tokens="NA" class="content" value="5">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GarageType<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="GarageType" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select GarageType</option>
+                                        <option data-tokens="2Types" class="content" value="0">2Types</option>
+                                        <option data-tokens="Attchd" class="content" value="1">Attchd</option>
+                                        <option data-tokens="Basment" class="content" value="2">Basment</option>
+                                        <option data-tokens="BuiltIn" class="content" value="3">BuiltIn</option>
+                                        <option data-tokens="CarPort" class="content" value="4">CarPort</option> 
+                                        <option data-tokens="Detchd" class="content" value="5">Detchd</option>
+                                        <option data-tokens="NA" class="content" value="5">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GarageFinish<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="GarageFinish" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select GarageFinish</option>
+                                        <option data-tokens="Fin" class="content" value="0">Fin</option>
+                                        <option data-tokens="RFn" class="content" value="1">RFn</option>
+                                        <option data-tokens="Unf" class="content" value="2">Unf</option>
+                                        <option data-tokens="NA" class="content" value="3">NA</option>
+                                    </select>
+                                </div>
+                        </div> 
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GarageCars<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="GarageCars" placeholder="No of car garages." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GarageArea<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="GarageArea" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GarageQual<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="GarageQual" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select GarageQual</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option> 
+                                        <option data-tokens="NA" class="content" value="5">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">GarageCond<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="GarageCond" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select GarageCond</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option>
+                                        <option data-tokens="Po" class="content" value="4">Po</option> 
+                                        <option data-tokens="NA" class="content" value="5">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">PavedDrive<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="PavedDrive" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select PavedDrive</option>
+                                        <option data-tokens="Y" class="content" value="0">Y</option>
+                                        <option data-tokens="P" class="content" value="1">P</option>
+                                        <option data-tokens="N" class="content" value="2">N</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">WoodDeckSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="WoodDeckSF" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">OpenPorchSF<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="OpenPorchSF" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">EnclosedPorch<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="EnclosedPorch" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">3SsnPorch<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="3SsnPorch" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">ScreenPorch<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="ScreenPorch" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">PoolArea<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="PoolArea" placeholder="Area in sft." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">PoolQC<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="PoolQC" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select PoolQC</option>
+                                        <option data-tokens="Ex" class="content" value="0">Ex</option>
+                                        <option data-tokens="Gd" class="content" value="1">Gd</option>
+                                        <option data-tokens="TA" class="content" value="2">TA</option>
+                                        <option data-tokens="Fa" class="content" value="3">Fa</option> 
+                                        <option data-tokens="NA" class="content" value="4">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">Fence<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="Fence" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select Fence</option>
+                                        <option data-tokens="GdPrv" class="content" value="0">GdPrv</option>
+                                        <option data-tokens="MnPrv" class="content" value="1">MnPrv</option>
+                                        <option data-tokens="GdWo" class="content" value="2">GdWo</option>
+                                        <option data-tokens="MnWw" class="content" value="3">MnWw</option> 
+                                        <option data-tokens="NA" class="content" value="4">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">MiscFeature<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="MiscFeature" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select MiscFeature</option>
+                                        <option data-tokens="Elev" class="content" value="0">Elev</option>
+                                        <option data-tokens="Gar2" class="content" value="1">Gar2</option>
+                                        <option data-tokens="Othr" class="content" value="2">Othr</option>
+                                        <option data-tokens="Shed" class="content" value="3">Shed</option> 
+                                        <option data-tokens="TenC" class="content" value="4">TenC</option>
+                                        <option data-tokens="NA" class="content" value="5">NA</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">MiscVal<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 inputGroupContainer">
+                                <div class="content input-group">
+                                    <input name="MiscVal" placeholder="Amount in $." class="content form-control"
+                                        type="number" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">SaleType<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="SaleType" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select SaleType</option>
+                                        <option data-tokens="WD" class="content" value="0">WD</option>
+                                        <option data-tokens="CWD" class="content" value="1">CWD</option>
+                                        <option data-tokens="VWD" class="content" value="2">VWD</option>
+                                        <option data-tokens="New" class="content" value="3">New</option> 
+                                        <option data-tokens="COD" class="content" value="4">COD</option>
+                                        <option data-tokens="Con" class="content" value="5">Con</option>
+                                        <option data-tokens="ConLw" class="content" value="6">ConLw</option>
+                                        <option data-tokens="ConLI" class="content" value="7">ConLI</option>
+                                        <option data-tokens="ConLD" class="content" value="8">ConLD</option>                     
+                                        <option data-tokens="Oth" class="content" value="9">Oth</option>
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="content center form-group">
+                            <label class="col-md-2 control-label">SaleCondition<span style="color: red;">*</span>:</label>
+                            <div class="col-md-4 selectContainer">
+                                <div class="content input-group">
+                                    <select name="SaleCondition" class="form-control selectpicker" data-live-search="true"
+                                        required>
+                                        <option data-tokens="" class="content" value="">Select SaleCondition</option>
+                                        <option data-tokens="Normal" class="content" value="0">Normal</option>
+                                        <option data-tokens="Abnorml" class="content" value="1">Abnorml</option>
+                                        <option data-tokens="AdjLand" class="content" value="2">AdjLand</option>
+                                        <option data-tokens="Alloca" class="content" value="3">Alloca</option> 
+                                        <option data-tokens="Family" class="content" value="4">Family</option>
+                                        <option data-tokens="Partial" class="content" value="5">Partial</option>
+                                    </select>
+                                </div>
+                        </div>
+
+                        
+                        <div class="content center">
+                            <span class="col-md-6" style="color: red;">*All Required</span>
+                        </div>
+
+                    </fieldset>
+                    <div class="content center form-group">
+                        <div class="submit col-md-2"><br>
+                            <button type="submit" class="content btn btn-lg btn-warning">SUBMIT</button>
+                        </div>
+                    </div>
+                 </form>
+            </div>
+        </section>
+        <article>
+            <div class="content center">
+                <h3>{{ prediction_text }}</h3>
+            </div>
+        </article>
+        <br>
+        <footer>
+            <div class="container-fluid bg-primary py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="row py-0">
+                                <img class="foot" src="{{ url_for('static', filename='images/roomhive3.png') }}">
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="d-inline-block">
+                                <div class="bg-circle-outline d-inline-block" style="background-color:#3b5998">
+                                    <a href="#"><i class="fa fa-2x fa-fw fa-facebook text-white"></i>
+                                    </a>
+                                </div>
+                                <div class="bg-circle-outline d-inline-block" style="background-color:#4099FF">
+                                    <a href="#">
+                                        <i class="fa fa-2x fa-fw fa-twitter text-white"></i></a>
+                                </div>
+
+                                <div class="bg-circle-outline d-inline-block" style="background-color:#0077B5">
+                                    <a href="#">
+                                        <i class="fa fa-2x fa-fw fa-linkedin text-white"></i></a>
+                                </div>
+                                <div class="bg-circle-outline d-inline-block" style="background-color:#fe4164">
+                                    <a href="#">
+                                        <i class="fa fa-2x fa-fw fa-instagram text-white"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
 </body>
+<a id="button"></a>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </html>
